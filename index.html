@@ -110,10 +110,6 @@
             }).svg()
         }
 
-        async function pasteFromClipboard() {
-            return await navigator.clipboard.readText()
-        }
-
         function genPng(val) {
             const canvas = document.getElementById('canv')
             canvas.width = size.value
@@ -153,8 +149,7 @@
             }
             // Standard QR
             pasteBtn.onclick = async() => {
-                let x =  await pasteFromClipboard()
-                link.value = x
+                link.value = await navigator.clipboard.readText()
             }
 
             // Wifi QR
