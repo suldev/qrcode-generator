@@ -53,8 +53,13 @@
                     <input type="text" placeholder="Content"
                         class="h-full pr-4 pl-1 flex-1 text-current bg-transparent focus:outline-none" id="linkBox"
                         value="https://google.com">
-                    <button class="h-full flex-2 pr-2 pl-2 border-l-gray-900 border-l-1 hover:bg-gray-700"
-                        id="genBtn">Generate</button>
+                    <div class="flex flex-col h-full flex-2 pr-2 pl-2 border-l-gray-900 border-l-1">
+                        <button class="h-full flex-2 pr-2 pl-2 hover:bg-gray-700"
+                            id="genBtn">Generate</button>
+                        <button class="h-full flex-2 pr-2 pl-2 hover:bg-gray-700"
+                            id="pasteBtn">Paste</button>
+                    </div>
+                    
                 </div>
                 <!--WIFI-->
                 <div class="flex flex-row items-center h-14 pl-1 rounded border-gray-900 bg-gray-800 border-1 text-white mb-2 w-full max-w-full">
@@ -105,6 +110,10 @@
             }).svg()
         }
 
+        async function pasteFromClipboard() {
+            return await navigator.clipboard.readText()
+        }
+
         function genPng(val) {
             const canvas = document.getElementById('canv')
             canvas.width = size.value
@@ -129,6 +138,7 @@
             });
             
             let btn = document.getElementById("genBtn")
+            let pbtn = document.getElementById("pasteBtn")
             let link = document.getElementById("linkBox")
             let qr = document.getElementById("qrcode");
 
@@ -140,6 +150,11 @@
             btn.onclick = () => {
                 qr.innerHTML = genSvg(link.value)
                 lastQuery = link.value
+            }
+            // Standard QR
+            pasteBtn.onclick = async() => {
+                let x =  await pasteFromClipboard()
+                link.value = x
             }
 
             // Wifi QR
